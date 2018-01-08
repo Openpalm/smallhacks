@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<title>Linux Laptop Power Tuning with Powertop and Friends | hobo.house</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="https://s0.wp.com/wp-content/themes/pub/twentyten/style.css" />
+<link rel="pingback" href="https://hobo.house/xmlrpc.php" />
+<script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Source+Sans+Pro:r,i,b,bi:latin,latin-ext","Source+Sans+Pro:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s1.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active #site-title{font-family:"Source Sans Pro",sans-serif;font-style:normal;font-weight:normal}.wf-active #site-title{font-style:normal;font-weight:normal}.wf-active #site-title a{font-weight:bold;font-style:normal}.wf-active .pingback a.url, .wf-active body{font-family:"Source Sans Pro",sans-serif}.wf-active #cancel-comment-reply-link, .wf-active #site-info, .wf-active #wp-calendar, .wf-active .comment-body thead th, .wf-active .comment-body tr th, .wf-active .comment-meta, .wf-active .entry-content label, .wf-active .entry-content thead th, .wf-active .entry-content tr th, .wf-active .entry-meta, .wf-active .entry-utility, .wf-active .form-allowed-tags, .wf-active .pingback p, .wf-active .reply, .wf-active .wp-caption-text{font-family:"Source Sans Pro",sans-serif}.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active h6{font-weight:normal;font-family:"Source Sans Pro",sans-serif;font-style:normal}.wf-active .page-title span{font-family:"Source Sans Pro",sans-serif;font-style:normal;font-weight:normal}.wf-active #access .menu, .wf-active #access div.menu ul, .wf-active #respond label, .wf-active .entry-title, .wf-active .navigation, .wf-active .page-title, .wf-active .widget-title, .wf-active h3#comments-title, .wf-active h3#reply-title{font-family:"Source Sans Pro",sans-serif;font-style:normal;font-weight:normal}.wf-active #access .menu-header, .wf-active div.menu{font-style:normal;font-weight:normal}.wf-active .page-title{font-weight:bold;font-style:normal}.wf-active .page-title span{font-style:italic;font-weight:normal}.wf-active #content .entry-title{font-weight:bold;font-style:normal}.wf-active .navigation{font-style:normal;font-weight:normal}.wf-active h3#comments-title, .wf-active h3#reply-title{font-weight:bold;font-style:normal}.wf-active #respond label{font-style:normal;font-weight:normal}.wf-active .widget-title{font-weight:bold;font-style:normal}</style>
+<meta name="p:domain_verify" content="d7bdcf8b1a48a1700bd5f46fc60b0ab7" />
+<meta name="yandex-verification" content="41e8f08166ac3963" />
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=hobo.house&amp;id=97009115&amp;t=1485701126&amp;back=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//hobosource.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="hobo.house &raquo; Feed" href="https://hobo.house/feed/" />
+<link rel="alternate" type="application/rss+xml" title="hobo.house &raquo; Comments Feed" href="https://hobo.house/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="hobo.house &raquo; Linux Laptop Power Tuning with Powertop and&nbsp;Friends Comments Feed" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1473172720h&ver=4.6.1-RC1-38499"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJyNUltuAyEMvFBdN0pS5afqWVjWZUl4CbNa5fY1S9po+6D9AY81Y48NuCTQMRQKBf0Myc3GBkZnL8R4ppKUvsCKHjXzA/5Mz+RUoRFS5PIF9WQ6ZpK8T6pUhqfRKnLkhdaT+fT8oarhJBa7bZYkbBiGlIkZ5PR29lAmafSHPV+ttPFRiNtMk1oMsVhR82fwrWZrhWkesCySuEoWuVwdweqta96OhmSpHLVVru0IWr+1Qk9rKIKLWhUbwwbAm1M29190cNFIaNbB77AnUroWH1S+Rz16/R/NCfKkcu11u3uq2yLETtyC39Y+HdC4OCj3nzXXYVsMJtsRVBjltXn9j6/+ZXc4HY/7027/dH4HonA25Q==' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFj+sKwjAMhV/IrHib+kN8ltrFkdqbTevQpzcD/aEOhUDIyZfDiRoSUDCudsjKSl0q5tuzNZZn6hcAnvqsCzaewgs2MRQMZWR9PJJDqIxZ96KJ0SlOcCly8cgs0MT2PRKFK+HwF7NYkjZnyMh0/3L1FZKrPQVWGZ080MGY4WOSq4Pfz1dtu14sd5utfQAruHB+'></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://hobosource.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Always Fill Saved Credentials in&nbsp;Firefox' href='https://hobo.house/2015/12/17/always-fill-saved-credentials-firefox/' />
+<link rel='next' title='Devconf2016 &#8211; Trystack: Free OpenStack for Planet&nbsp;Earth' href='https://hobo.house/2016/01/08/devconf2016-trystack-free-openstack-for-planet-earth/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" />
+<link rel='shortlink' href='http://wp.me/p6z2v9-cQ' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Linux Laptop Power Tuning with Powertop and Friends" />
+<meta property="og:url" content="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" />
+<meta property="og:description" content="There&#8217;s an easy way to reduce power usage on Linux laptops using Intel&#8217;s Powertop utility.  Powertop polls your existing power usage and recommends tunings for your hardware.  I&#8217;l…" />
+<meta property="article:published_time" content="2015-12-18T13:59:04+00:00" />
+<meta property="article:modified_time" content="2016-01-01T08:08:54+00:00" />
+<meta property="og:site_name" content="hobo.house" />
+<meta property="og:image" content="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png" />
+<meta property="og:image:width" content="1134" />
+<meta property="og:image:height" content="579" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@sadsfae" />
+<meta name="twitter:image" content="https://hobosource.files.wordpress.com/2015/08/tux.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@sadsfae" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/baae707ac9af38ebec63a0f633216b07?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/baae707ac9af38ebec63a0f633216b07?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/baae707ac9af38ebec63a0f633216b07?s=114" />
+<link rel='openid.server' href='https://hobosource.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://hobosource.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://hobo.house/osd.xml" title="hobo.house" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="hobo.house" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="✯ open source ✯ comedy ✯ travel ✯ life" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://hobo.house/feed/;icon-uri=https://secure.gravatar.com/blavatar/baae707ac9af38ebec63a0f633216b07?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Linux Laptop Power Tuning with Powertop and&nbsp;Friends | hobo.house on WordPress.com" />
+<meta name="description" content="There&#039;s an easy way to reduce power usage on Linux laptops using Intel&#039;s Powertop utility.  Powertop polls your existing power usage and recommends tunings for your hardware.  I&#039;ll show you how to quickly make the most of your battery life using this tool as well as tuned and cpufreq. Install Powertop I&#039;m using Fedora for&hellip;" />
+<link rel="amphtml" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="single single-post postid-796 single-format-standard mp6 customizer-styles-applied single-author highlander-enabled highlander-light">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="https://hobo.house/" title="hobo.house" rel="home">hobo.house</a>
+					</span>
+				</div>
+				<div id="site-description">✯ open source ✯ comedy ✯ travel ✯ life</div>
+
+										<a class="home-link" href="https://hobo.house/" title="hobo.house" rel="home">
+							<img src="https://hobosource.files.wordpress.com/2016/07/cropped-hobohouse.jpg" width="940" height="198" alt="" />
+						</a>
+								</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+								<div class="menu-header"><ul id="menu-default" class="menu"><li id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-34"><a href="http://hobo.house">Home</a></li>
+<li id="menu-item-33" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-33"><a href="https://hobo.house/category/open-source/">Open Source</a></li>
+<li id="menu-item-62564" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62564"><a href="https://hobo.house/speaking/">Speaking</a></li>
+<li id="menu-item-86" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-86"><a href="https://hobo.house/category/comedy/">Comedy</a></li>
+<li id="menu-item-146" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-146"><a href="https://hobo.house/category/food/">Food</a></li>
+<li id="menu-item-145" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-145"><a href="https://hobo.house/category/travel/">Travel</a></li>
+<li id="menu-item-544" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-544"><a href="https://hobo.house/category/gaming/">Games</a></li>
+<li id="menu-item-730" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-730"><a href="https://hobo.house/servers/">Servers</a></li>
+<li id="menu-item-493" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-493"><a href="https://hobo.house/category/life/">Life</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="https://hobo.house/willfoster/">About</a></li>
+</ul></div>			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="https://hobo.house/2015/12/17/always-fill-saved-credentials-firefox/" rel="prev"><span class="meta-nav">&larr;</span> Always Fill Saved Credentials in&nbsp;Firefox</a></div>
+					<div class="nav-next"><a href="https://hobo.house/2016/01/08/devconf2016-trystack-free-openstack-for-planet-earth/" rel="next">Devconf2016 &#8211; Trystack: Free OpenStack for Planet&nbsp;Earth <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-796" class="post-796 post type-post status-publish format-standard hentry category-open-source category-sysadmin tag-desktop-linux tag-linux tag-mobile tag-power-management tag-power-savings">
+											<h2 class="entry-title"><a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" rel="bookmark">Linux Laptop Power Tuning with Powertop and&nbsp;Friends</a></h2>					
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Posted on</span> <a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" title="1:59 pm" rel="bookmark"><span class="entry-date">December 18, 2015</span></a>						<span class="by-author"><span class="sep">by</span> <span class="author vcard"><a class="url fn n" href="https://hobo.house/author/wwfoster/" title="View all posts by Will Foster" rel="author">Will Foster</a></span> </span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<p><a href="https://hobosource.files.wordpress.com/2015/08/tux.png" rel="attachment wp-att-287"><img data-attachment-id="287" data-permalink="https://hobo.house/2015/08/20/simple-linux-disk-performance-testing/tux/" data-orig-file="https://hobosource.files.wordpress.com/2015/08/tux.png" data-orig-size="265,314" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Tux" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/08/tux.png?w=253" data-large-file="https://hobosource.files.wordpress.com/2015/08/tux.png?w=265" class="wp-image-287 size-thumbnail alignleft" src="https://hobosource.files.wordpress.com/2015/08/tux.png?w=127&#038;h=150" alt="Tux" width="127" height="150" srcset="https://hobosource.files.wordpress.com/2015/08/tux.png?w=127&amp;h=150 127w, https://hobosource.files.wordpress.com/2015/08/tux.png?w=254&amp;h=300 254w" sizes="(max-width: 127px) 100vw, 127px" /></a><a href="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png" rel="attachment wp-att-800"><img data-attachment-id="800" data-permalink="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/oxygen480-status-battery-charging-060-svg/" data-orig-file="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png" data-orig-size="1024,1024" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Oxygen480-status-battery-charging-060.svg" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png?w=300" data-large-file="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png?w=640" class="size-thumbnail wp-image-800 alignleft" src="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png?w=150&#038;h=150" alt="Oxygen480-status-battery-charging-060.svg" width="150" height="150" srcset="https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png?w=150&amp;h=150 150w, https://hobosource.files.wordpress.com/2015/12/oxygen480-status-battery-charging-060-svg.png?w=300&amp;h=300 300w" sizes="(max-width: 150px) 100vw, 150px" /></a>There&#8217;s an easy way to reduce power usage on Linux laptops using Intel&#8217;s <a href="https://01.org/powertop" target="_blank">Powertop</a> utility.  Powertop polls your existing power usage and recommends tunings for your hardware.  I&#8217;ll show you how to quickly make the most of your battery life using this tool as well as tuned and cpufreq.<span id="more-796"></span></p>
+<p><span style="text-decoration:underline;"><strong>Install Powertop</strong></span><br />
+I&#8217;m using Fedora for these examples, but most distributions will have this available &#8211; adjust as needed.</p>
+<pre>dnf install powertop -y</pre>
+<p><span style="text-decoration:underline;"><strong>Note Normal Pre-tune Power Usage</strong></span><br />
+Run powertop to see normal power usage, make sure you <strong>are not connected</strong> to a power source.</p>
+<pre>powertop</pre>
+<p><a href="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png" rel="attachment wp-att-806"><img data-attachment-id="806" data-permalink="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/powertop-manual/" data-orig-file="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png" data-orig-size="1039,414" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="powertop-manual" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=300" data-large-file="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=640&#038;h=255" class="alignnone size-large wp-image-806" src="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=640&#038;h=255" alt="powertop-manual" width="640" height="255" srcset="https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=640&amp;h=255 640w, https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=150&amp;h=60 150w, https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=300&amp;h=120 300w, https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=768&amp;h=306 768w, https://hobosource.files.wordpress.com/2015/12/powertop-manual.png?w=1024&amp;h=408 1024w, https://hobosource.files.wordpress.com/2015/12/powertop-manual.png 1039w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p><span style="text-decoration:underline;"><strong>Poll Usage and Record</strong></span><br />
+Next you&#8217;ll want to run powertop with the &#8211;calibrate and &#8211;html flag while <strong>not connected</strong> to a power source.  Note that &#8211;calibrate will <strong>disconnect you</strong> from wifi temporarily and you might see some screen flickering.</p>
+<pre>powertop --calibrate</pre>
+<pre>powertop --html</pre>
+<p>You&#8217;ll see some output like below, when it&#8217;s completed you&#8217;ll have a <em>powertop.html</em> file wherever you ran the program.</p>
+<pre>Loaded 750 prior measurements
+ RAPL device for cpu 0
+ RAPL Using PowerCap Sysfs : Domain Mask f
+ RAPL device for cpu 0
+ RAPL Using PowerCap Sysfs : Domain Mask f
+ RAPL device for cpu 0
+ RAPL Using PowerCap Sysfs : Domain Mask f
+ Devfreq not enabled
+ Preparing to take measurements
+ unknown op '{'
+ Taking 1 measurement(s) for a duration of 20 second(s) each.
+ PowerTOP outputing using base filename powertop.html</pre>
+<p><span style="text-decoration:underline;"><strong>Output and Recommendations</strong></span><br />
+Point a browser to the powertop.html file and you&#8217;ll see things like status, power usage, processes using the most power and lastly tuning.  The tuning tab is what we&#8217;ll focus on.</p>
+<p><a href="https://hobosource.files.wordpress.com/2015/12/powertop.png" rel="attachment wp-att-797"><img data-attachment-id="797" data-permalink="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/powertop/" data-orig-file="https://hobosource.files.wordpress.com/2015/12/powertop.png" data-orig-size="1289,457" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="powertop" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/12/powertop.png?w=300" data-large-file="https://hobosource.files.wordpress.com/2015/12/powertop.png?w=640&#038;h=227" class="alignnone size-large wp-image-797" src="https://hobosource.files.wordpress.com/2015/12/powertop.png?w=640&#038;h=227" alt="powertop" width="640" height="227" srcset="https://hobosource.files.wordpress.com/2015/12/powertop.png?w=640&amp;h=227 640w, https://hobosource.files.wordpress.com/2015/12/powertop.png?w=1280&amp;h=454 1280w, https://hobosource.files.wordpress.com/2015/12/powertop.png?w=150&amp;h=53 150w, https://hobosource.files.wordpress.com/2015/12/powertop.png?w=300&amp;h=106 300w, https://hobosource.files.wordpress.com/2015/12/powertop.png?w=768&amp;h=272 768w, https://hobosource.files.wordpress.com/2015/12/powertop.png?w=1024&amp;h=363 1024w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p><a href="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png" rel="attachment wp-att-799"><img data-attachment-id="799" data-permalink="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/powertop-untuned/" data-orig-file="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png" data-orig-size="1134,579" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="powertop-untuned" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=300" data-large-file="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=640&#038;h=327" class="alignnone size-large wp-image-799" src="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=640&#038;h=327" alt="powertop-untuned" width="640" height="327" srcset="https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=640&amp;h=327 640w, https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=150&amp;h=77 150w, https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=300&amp;h=153 300w, https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=768&amp;h=392 768w, https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png?w=1024&amp;h=523 1024w, https://hobosource.files.wordpress.com/2015/12/powertop-untuned.png 1134w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p><span style="text-decoration:underline;"><strong>Apply Tuning Recommendations</strong></span><br />
+There&#8217;s several options you can pursue here.  You can either manually copy/paste the tuning recommendations from the generated HTML tunings above or you can use lynx and a bit of sed to spit them out and apply them all.  Lastly, you can just set powertop to use the &#8211;auto-tune feature (though you&#8217;ll need to run it at boot everytime).  It&#8217;s best to review them all prior.</p>
+<p><strong>Note:</strong> <em>you might want to forgo any USB suspend options if you use an external keyboard or mouse as USB is always slow to resume and this causes issues for some people.</em></p>
+<p><strong>Option #1 &#8211; Apply Tuning Recommendations Permanently</strong></p>
+<p>In this example I&#8217;ll show all tunings in an easy, copy/paste fashion to make the most of your time.</p>
+<p><span style="text-decoration:underline;">Convert HTML to TXT</span></p>
+<pre>lynx -dump -width 200 powertop.html &gt; powertop.txt</pre>
+<p><span style="text-decoration:underline;">Strip out Recommended Power Tunings</span></p>
+<pre>cat powertop.txt | sed 's/^.*echo/echo/' | \
+sed 's/^.*ethtool/ethtool/' | egrep -B3 "echo|ethtool|hdparm" \
+| egrep -v "Software|Description|Script" &gt; /tmp/tuning.txt</pre>
+<p>Now review what&#8217;s been captured, you can paste these them all to apply them or choose individually as you prefer.</p>
+<pre>cat /tmp/tuning.txt | less</pre>
+<p>Note the tuning recommendations..</p>
+<pre>echo '1500' &gt; '/proc/sys/vm/dirty_writeback_centisecs';
+echo '1' &gt; '/sys/module/snd_hda_intel/parameters/power_save';
+echo '0' &gt; '/proc/sys/kernel/nmi_watchdog';
+echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-3/device/power/control';
+echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-4/device/power/control';
+echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-1/device/power/control';
+echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-2/device/power/control';
+echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-0/device/power/control';
+echo 'auto' &gt; '/sys/bus/usb/devices/8-1/power/control';
+echo 'auto' &gt; '/sys/bus/usb/devices/3-2/power/control';
+-- snip --</pre>
+<p><strong>Review</strong> the tunings.<br />
+If you like how this looks, you can also make a script to apply it all instead of pasting it.</p>
+<pre>echo '#!/bin/bash' &gt; /tmp/tuning.sh
+cat powertop.txt | sed 's/^.*echo/echo/' | sed \
+'s/^.*ethtool/ethtool/' | egrep -B3 "echo|ethtool|hdparm" \
+| egrep -v "Software|Description|Script" &gt;&gt; /tmp/tuning.sh</pre>
+<p><span style="text-decoration:underline;">Run the Script</span></p>
+<pre>chmod +x /tmp/tuning.sh
+sh /tmp/tuning.sh</pre>
+<p><strong>Option #2 &#8211; Auto Tune</strong><br />
+Powertop provides the option to simply apply all the recommended settings for you, but they will be lost on boot.</p>
+<pre>powertop --auto-tune</pre>
+<p><strong>Persist after boot</strong><br />
+You can use the following systemd unit file to simply make powertop a systemd-controlled service</p>
+<pre>cat &gt; /etc/systemd/system/powertop.service &lt;&lt; EOF
+[Unit]
+Description=Powertop tunings
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/powertop --auto-tune
+
+[Install]
+WantedBy=multi-user.target
+EOF</pre>
+<pre>systemctl enable powertop</pre>
+<p><span style="text-decoration:underline;"><strong>Running Powertop</strong></span><br />
+You can run powertop manually at any time to get a feeling for your battery usage.  It might be a good idea to see before/after improvement.  For comparison I get an average of 6 to 8W of power usage under a normal workload on my Lenovo x240 running Fedora 22 on Kernel 4.2.7.  I believe I average around 6-9W, down from 10-12W with no tuning &#8211; quite an improvement!</p>
+<p><a href="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png" rel="attachment wp-att-847"><img data-attachment-id="847" data-permalink="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/battery-best-10hr/" data-orig-file="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png" data-orig-size="1044,471" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="battery-best-10hr" data-image-description="" data-medium-file="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=300" data-large-file="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=640&#038;h=289" class="alignnone size-large wp-image-847" src="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=640&#038;h=289" alt="battery-best-10hr" width="640" height="289" srcset="https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=640&amp;h=289 640w, https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=150&amp;h=68 150w, https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=300&amp;h=135 300w, https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=768&amp;h=346 768w, https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png?w=1024&amp;h=462 1024w, https://hobosource.files.wordpress.com/2015/12/battery-best-10hr1.png 1044w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p><span style="text-decoration:underline;"><strong>Tuned: Further Savings</strong></span><br />
+You can also use a tuned profile to provide additional power management savings.</p>
+<p><span style="text-decoration:underline;">Install tuned and Profiles</span></p>
+<pre>dnf install tuned-profiles-compat tuned -y</pre>
+<p><span style="text-decoration:underline;">Enable Tuned and Set Profile</span></p>
+<pre>systemctl enable tuned.service
+systemctl start tuned.service
+tuned-adm profile laptop-battery-powersave</pre>
+<p>You can list other profiles available and see what works best, just &#8220;powersave&#8221; is good too.</p>
+<pre>tuned-adm list</pre>
+<p><span style="text-decoration:underline;">Alternative to tuned profiles</span> &#8211; there is also a command called <em>powertop2tuned</em> that will generate a tuned profile based directly on your powertop &#8211;html output, you can specify an existing html file or run it without options and it will create one.  I just use the <em>laptop-battery-powersave</em> tuned profile instead.  Below is an example where powertop-settings is the new tuned profile you&#8217;d want to use.</p>
+<pre>powertop2tuned powertop-settings</pre>
+<pre>Running PowerTOP, please wait...
+Generating shell script /etc/tuned/powertop-settings/script.sh
+Generating Tuned config file /etc/tuned/powertop-settings/tuned.conf</pre>
+<p>Now apply the tuned profile based on powertop settings, you&#8217;d use what you named it above.<br />
+More info can be <a href="https://docs.fedoraproject.org/ja-JP/Fedora/19/html/Power_Management_Guide/sect-tuned-powertop2tuned.html" target="_blank">found here.</a></p>
+<pre>tuned-adm profile powertop-settings</pre>
+<p><span style="text-decoration:underline;"><strong>Cpufreq &#8211; Further Tuning</strong></span><br />
+Lastly, you will want to enable cpufreq so you can have CPU frequency scale up and down based on demand &#8211; this will save a noticable amount of power basd on the <em>powersave</em> profile.</p>
+<p><span style="text-decoration:underline;">Install cpufreq-utils</span></p>
+<pre>dnf install cpufreq-utils -y</pre>
+<p><span style="text-decoration:underline;">Use Powersave Options</span></p>
+<pre>cpupower frequency-set -g powersave</pre>
+<p><span style="text-decoration:underline;">Check your settings</span></p>
+<pre>cpupower frequency-info</pre>
+<pre>analyzing CPU 0:
+  driver: intel_pstate
+  CPUs which run at the same hardware frequency: 0
+  CPUs which need to have their frequency set by software: 0
+  maximum transition latency: 0.97 ms.
+  hardware limits: 800 MHz - 3.30 GHz
+  available cpufreq governors: performance, powersave
+  current policy: frequency should be within 800 MHz and 3.30 GHz.
+                  The governor "powersave" may decide speed to use
+                  within this range.
+  current CPU frequency is 800 MHz (asserted by call to hardware).
+  boost state support:
+    Supported: yes
+    Active: yes</pre>
+<p><span style="text-decoration:underline;"><strong>Kernel GPU Savings Options (<em><span style="color:#ff0000;text-decoration:underline;">NOTE</span> i915 chipset only</em>)</strong></span><br />
+I also use the following kernel options for my laptop, a Lenovo x240 using the <strong>Intel i915</strong> chipset.  These settings won&#8217;t work for everyone so research them before applying.  If you&#8217;re not sure skip over this part.</p>
+<ul>
+<li>file: /etc/default/grub</li>
+<li>Note: this is a snippet, so make sure to <strong>append this only</strong> to your existing grub settings.</li>
+</ul>
+<pre>--snip append to your grub entry --
+GRUB_CMDLINE_LINUX="drm.debug=0 drm.vblankoffdelay=1 
+i915.semaphores=1 i915.modeset=1 i915.use_mmio_flip=1 
+i915.powersave=1 i915.enable_ips=1 i915.disable_power_well=1 
+i915.enable_hangcheck=1 i915.enable_cmd_parser=1 i915.fastboot=0 
+i915.enable_ppgtt=1 i915.reset=0 i915.lvds_use_ssc=0 
+i915.enable_psr=0 vblank_mode=0 i915.i915_enable_rc6=1"
+--snip append to your grub entry --</pre>
+<p>Like usual, to apply grub changes run the following command and reboot:</p>
+<pre>grub2-mkconfig -o /boot/grub2/grub.cfg</pre>
+<p><span style="text-decoration:underline;color:#000000;"><strong>Additional <span style="color:#ff0000;text-decoration:underline;">i915 Only</span> Tunings (Lenovo x240 or similiar)<br />
+</strong></span><span style="color:#000000;">You can also pre-blacklist some modules not really needed often and force some power savings i915 kernel module options like below.  The</span><span style="color:#000000;">se seem to further help power savings for the GPU.  Note some of these are duplicated in the above kernel boot options, but we&#8217;ll force them anyways for modprobe as well for good measure.</span></p>
+<pre>cat &gt; /etc/modprobe.d/x240-i915.conf &lt;&lt; EOF
+options i915 i915_enable_rc6=1 i915_enable_fbc=1 lvds_downclock=1
+options iwl_wifi power_save=1 power_level=3 bt_coex_active=0 11ndisable=1
+
+blacklist sierra_net
+blacklist cdc_mbim
+blacklist cdc_ncm
+blacklist btusb
+EOF</pre>
+<p><span style="text-decoration:underline;"><strong>Further Power Savings Tips</strong></span><br />
+In general the following tips apply to conserving battery:</p>
+<ul>
+<li>Don&#8217;t use max brightness, this seems to usurp a lot of battery power.</li>
+<li>Unplug your laptop when it&#8217;s fully charged, in general this prolongs the battery lifetime.</li>
+<li>Use a blank screensaver.</li>
+<li>Disable your ethernet kernel module if you don&#8217;t use it often, I do this via rc.local:</li>
+</ul>
+<pre>touch /etc/rc.d/rc.local
+echo '#!/bin/bash' &gt;&gt; /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+echo 'rmmod e1000e' &gt;&gt; /etc/rc.local
+systemctl enable rc-local.service</pre>
+<ul>
+<li>Think about using <a href="https://hobo.house/2015/08/07/linux-hybrid-suspend-laptop/" target="_blank">my hybrid suspend on Linux guide</a>.</li>
+</ul>
+<p><span style="text-decoration:underline;"><strong>TLP</strong></span><br />
+Some readers <a href="https://www.reddit.com/r/linux/comments/3xedi7/linux_laptop_power_savingstuning_guide/" target="_blank">over at the r/linux subreddit</a> have pointed out that <a href="https://wiki.archlinux.org/index.php/TLP" target="_blank">TLP</a> is a good alternative tool to, or to be used in conjunction with powertop.  I&#8217;ve not tried it yet, being happy with my power savings from the above approach but please post in comments if you have any suggestions and I&#8217;m happy to merge them here.  Both TLP and powertop will make the same settings, but I prefer to use the powertop approach as it&#8217;s usually best to understand/review everything you&#8217;re changing before making any changes to the system.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share This:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-796" class="share-twitter sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-796" class="share-facebook sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=facebook" target="_blank" title="Share on Facebook"><span></span><span class="sharing-screen-reader-text">Share on Facebook (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-796" class="share-linkedin sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-796" class="share-google-plus-1 sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-pinterest"><a rel="nofollow" data-shared="sharing-pinterest-796" class="share-pinterest sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=pinterest" target="_blank" title="Click to share on Pinterest"><span></span><span class="sharing-screen-reader-text">Click to share on Pinterest (Opens in new window)</span></a></li><li class="share-tumblr"><a rel="nofollow" data-shared="" class="share-tumblr sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=tumblr" target="_blank" title="Click to share on Tumblr"><span></span><span class="sharing-screen-reader-text">Click to share on Tumblr (Opens in new window)</span></a></li><li class="share-jetpack-whatsapp"><a rel="nofollow" data-shared="" class="share-jetpack-whatsapp sd-button share-icon no-text" href="whatsapp://send?text=Linux%20Laptop%20Power%20Tuning%20with%20Powertop%20and%20Friends https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F" target="_blank" title="Click to share on WhatsApp"><span></span><span class="sharing-screen-reader-text">Click to share on WhatsApp (Opens in new window)</span></a></li><li class="share-telegram"><a rel="nofollow" data-shared="" class="share-telegram sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=telegram" target="_blank" title="Click to share on Telegram"><span></span><span class="sharing-screen-reader-text">Click to share on Telegram (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=pocket" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-skype"><a rel="nofollow" data-shared="sharing-skype-796" class="share-skype sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=skype" target="_blank" title="Click to share on Skype"><span></span><span class="sharing-screen-reader-text">Click to share on Skype (Opens in new window)</span></a></li><li class="share-email"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?share=email" target="_blank" title="Click to email"><span></span><span class="sharing-screen-reader-text">Click to email (Opens in new window)</span></a></li><li class="share-print"><a rel="nofollow" data-shared="" class="share-print sd-button share-icon no-text" href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/#print" target="_blank" title="Click to print"><span></span><span class="sharing-screen-reader-text">Click to print (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-97009115-796-588e00063ce9a' data-src='//widgets.wp.com/likes/#blog_id=97009115&amp;post_id=796&amp;origin=hobosource.wordpress.com&amp;obj_id=97009115-796-588e00063ce9a' data-name='like-post-frame-97009115-796-588e00063ce9a'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>											</div><!-- .entry-content -->
+
+					<div id="entry-author-info">
+						<div id="author-avatar">
+							<img alt='' src='https://0.gravatar.com/avatar/6d23a9836814809639d8879760cc90fe?s=60&#038;d=retro&#038;r=G' class='avatar avatar-60' height='60' width='60' />						</div><!-- #author-avatar -->
+						<div id="author-description">
+							<h2>About Will Foster</h2>
+							hobo devop/sysadmin, all-around nice human.							<div id="author-link">
+								<a href="https://hobo.house/author/wwfoster/" rel="author">
+									View all posts by Will Foster <span class="meta-nav">&rarr;</span>								</a>
+							</div><!-- #author-link	-->
+						</div><!-- #author-description -->
+					</div><!-- #entry-author-info -->
+
+					<div class="entry-utility">
+												This entry was posted in <a href="https://hobo.house/category/open-source/" rel="category tag">open source</a>, <a href="https://hobo.house/category/sysadmin/" rel="category tag">sysadmin</a> and tagged <a href="https://hobo.house/tag/desktop-linux/" rel="tag">desktop linux</a>, <a href="https://hobo.house/tag/linux/" rel="tag">linux</a>, <a href="https://hobo.house/tag/mobile/" rel="tag">mobile</a>, <a href="https://hobo.house/tag/power-management/" rel="tag">power management</a>, <a href="https://hobo.house/tag/power-savings/" rel="tag">power savings</a>. Bookmark the <a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" title="Permalink to Linux Laptop Power Tuning with Powertop and&nbsp;Friends" rel="bookmark">permalink</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="https://hobo.house/2015/12/17/always-fill-saved-credentials-firefox/" rel="prev"><span class="meta-nav">&larr;</span> Always Fill Saved Credentials in&nbsp;Firefox</a></div>
+					<div class="nav-next"><a href="https://hobo.house/2016/01/08/devconf2016-trystack-free-openstack-for-planet-earth/" rel="next">Devconf2016 &#8211; Trystack: Free OpenStack for Planet&nbsp;Earth <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">One Response to <em>Linux Laptop Power Tuning with Powertop and&nbsp;Friends</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment byuser comment-author-kambizaghaiepour even thread-even depth-1 highlander-comment" id="li-comment-305">
+		<div id="comment-305">
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/497f917ed3459095d5ef53393cbeb195?s=40&#038;d=retro&#038;r=G' class='avatar avatar-40' height='40' width='40' />				<cite class="fn"><a href='http://aghaiepour.wordpress.com' rel='external nofollow' class='url'>kambizaghaiepour</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/#comment-305">
+				December 18, 2015 at 7:53 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Unbelievable.  As dirty as it made me feel, I kept thinking to myself &#8220;maybe I should just get a mac&#8221; for the sole reason of power consumption and battery life.  Until I implemented the changes you&#8217;ve outlined here,  on my Fedora 23 installation on Lenovo T430s running xfce+kwin I was running at about 186F / 85C, and a powertop reported  battery discharge rate of 25W.  I&#8217;ve since cut that in half to between 12-14W, and a much cooler running temprature of 125F / 52C.</p>
+<p id="comment-like-305" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?like_comment=305&#038;_wpnonce=1786ccf3c9" class="comment-like-link needs-login" rel="nofollow" data-blog="97009115"><span>Like</span></a><span id="comment-like-count-305" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/?replytocom=305#respond' onclick='return addComment.moveForm( "comment-305", "305", "respond", "796" )' aria-label='Reply to kambizaghaiepour'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+			</ol>
+
+
+	
+
+				<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Have a Squat, Leave a Reply .. <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://hobo.house/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="b48d670bf6" /><input type="hidden" name="_wp_http_referer" value="/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=retro&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=retro&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=retro&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=retro&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=retro&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='796' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="af14836d9e" /></p>
+<input type="hidden" name="genseq" value="1485701126" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="168"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+						<ul class="xoxo">
+
+<li id="wpcom_social_media_icons_widget-3" class="widget-container widget_wpcom_social_media_icons_widget"><ul><li><a title="View thehobohouse&#8217;s profile on Facebook" href="https://www.facebook.com/thehobohouse/" class="genericon genericon-facebook" target="_blank"><span class="screen-reader-text">View thehobohouse&#8217;s profile on Facebook</span></a></li><li><a title="View sadsfae&#8217;s profile on Twitter" href="https://twitter.com/sadsfae/" class="genericon genericon-twitter" target="_blank"><span class="screen-reader-text">View sadsfae&#8217;s profile on Twitter</span></a></li><li><a title="View hobohouse&#8217;s profile on Instagram" href="https://instagram.com/hobohouse/" class="genericon genericon-instagram" target="_blank"><span class="screen-reader-text">View hobohouse&#8217;s profile on Instagram</span></a></li><li><a title="View willfoster&#8217;s profile on LinkedIn" href="https://www.linkedin.com/in/willfoster/" class="genericon genericon-linkedin" target="_blank"><span class="screen-reader-text">View willfoster&#8217;s profile on LinkedIn</span></a></li><li><a title="View sadsfae&#8217;s profile on GitHub" href="https://github.com/sadsfae/" class="genericon genericon-github" target="_blank"><span class="screen-reader-text">View sadsfae&#8217;s profile on GitHub</span></a></li><li><a title="View UCna2HP3A_wWdqVs4a145vDg&#8217;s profile on YouTube" href="https://www.youtube.com/channel/UCna2HP3A_wWdqVs4a145vDg/" class="genericon genericon-youtube" target="_blank"><span class="screen-reader-text">View UCna2HP3A_wWdqVs4a145vDg&#8217;s profile on YouTube</span></a></li><li><a title="View sadsfae&#8217;s profile on Vimeo" href="https://vimeo.com/sadsfae/" class="genericon genericon-vimeo" target="_blank"><span class="screen-reader-text">View sadsfae&#8217;s profile on Vimeo</span></a></li><li><a title="View +WillFoster&#8217;s profile on Google+" href="https://plus.google.com/u/0/+WillFoster/" class="genericon genericon-googleplus" target="_blank"><span class="screen-reader-text">View +WillFoster&#8217;s profile on Google+</span></a></li></ul></li><li id="search-5" class="widget-container widget_search"><form role="search" method="get" id="searchform" class="searchform" action="https://hobo.house/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></li><li id="top-posts-3" class="widget-container widget_top-posts"><h3 class="widget-title">Best Pickins&#8217;</h3><ul>				<li>
+										<a href="https://hobo.house/2016/03/10/build-secure-vlan-networks-with-shibby-tomato-router-firmware/" class="bump-view" data-bump-view="tp">
+						Build Secure VLAN Networks with &#039;Shibby&#039; Router Firmware					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/03/03/installing-centos-on-the-raspberry-pi-2/" class="bump-view" data-bump-view="tp">
+						Installing CentOS on the Raspberry Pi 2					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/03/13/installing-fedora-linux-on-the-raspberry-pi-3/" class="bump-view" data-bump-view="tp">
+						Installing Fedora on the Raspberry Pi 3					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/06/24/automate-nagios-deployment-with-ansible/" class="bump-view" data-bump-view="tp">
+						Automate Nagios Monitoring with Ansible					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/01/26/logitech-g933-wireless-headset-linux/" class="bump-view" data-bump-view="tp">
+						Logitech G933 Wireless Headset on Linux					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2015/09/09/take-control-of-your-email-with-mutt-offlineimap-notmuch/" class="bump-view" data-bump-view="tp">
+						Take Control of your Email with Mutt, OfflineIMAP and Notmuch					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2015/08/14/using-kwin-with-xfce/" class="bump-view" data-bump-view="tp">
+						Using KWin with Xfce					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/08/08/switching-from-mutt-to-neomutt/" class="bump-view" data-bump-view="tp">
+						Switching from Mutt to Neomutt					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" class="bump-view" data-bump-view="tp">
+						Linux Laptop Power Tuning with Powertop and Friends					</a>
+									</li>
+							<li>
+										<a href="https://hobo.house/2016/06/20/fun-and-profit-with-reverse-ssh-tunnels-and-autossh/" class="bump-view" data-bump-view="tp">
+						Fun and Profit with Reverse SSH Tunnels and AutoSSH					</a>
+									</li>
+			</ul></li><li id="rss_links-3" class="widget-container widget_rss_links"><ul><li><a href="https://hobo.house/feed/" title="Subscribe to Posts">RSS - Posts</a></li></ul>
+</li><li id="blog-stats-2" class="widget-container widget_blog-stats"><h3 class="widget-title">Squatters</h3>		<ul>
+			<li>96,019 hobos</li>
+		</ul>
+		</li><li id="blog_subscription-3" class="widget-container widget_blog_subscription"><h3 class="widget-title"><label for="subscribe-field">Subscribe</label></h3>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Receive email about new articles.</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"/></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="blog_id" value="97009115"/>
+						<input type="hidden" name="source" value="https://hobo.house/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="805a2a4a9a" />						<input type="submit" value="Hop the Train" />
+					</p>
+				</form>
+			
+</li><li id="text-3" class="widget-container widget_text">			<div class="textwidget"><a href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Fhobo.house%2Ffeed%2F' target='blank'><img id='feedlyFollow' src='https://i2.wp.com/s3.feedly.com/img/follows/feedly-follow-rectangle-volume-small_2x.png' alt='follow us in feedly' width='66' height='20'></a><br><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=9DYXWE67SERN2" target="_blank"><img src="https://hobosource.files.wordpress.com/2015/10/btn_donate_sm.gif" alt="Spare a Shillin Guv'nah?" /></a><br><a href="https://flattr.com/submit/auto?user_id=sadsfae&amp;url=http%3A%2F%2Fhobo.house&amp;title=Will Foster's Hobo House" target="_blank"><img src="//button.flattr.com/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></img><br><a href="https://www.patreon.com/bePatron?patAmt=1&amp;u=3193161" target="_blank"><img src="https://hobosource.files.wordpress.com/2016/04/support-my-work-patreon-e1461070866411.png"></a>
+<p><a href="https://willfoster.bandcamp.com/releases" target="_blank"><img src="https://hobosource.files.wordpress.com/2016/11/bandcamp_button-e1479488039587.png"></a><br><a href="https://www.twitch.tv/thehobohouse" target="_blank"><img src="https://hobosource.files.wordpress.com/2016/12/twitchlogo1.png"></a></div>
+		</li><li id="linkcat-1356" class="widget-container widget_links"><h3 class="widget-title">Blogroll</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="https://browbeatproject.org" title="OpenStack scale and performance software" target="_blank">Browbeat Project</a></li>
+<li><a href="http://www.captainkvm.com" title="Jon Benedict" target="_blank">Captain KVM</a></li>
+<li><a href="http://www.cubezombie.org" title="Jake Walters Blog.">CubeZombie</a></li>
+<li><a href="http://www.jaddog.org/" title="Dan Radez Blog" target="_blank">Dan Radez</a></li>
+<li><a href="http://groningenrain.nl" title="Rain&#8217;s Blog.">Groningen Rain</a></li>
+<li><a href="https://aghaiepour.wordpress.com/" title="Kambiz Aghaiepour Blog" target="_blank">Kambiz Aghaiepour</a></li>
+<li><a href="https://multiplayer.ninja" title="Install and manage game servers with automation tools so you have more time to play with friends" target="_blank">Multiplayer Ninja</a></li>
+<li><a href="http://stevemilner.org/" title="Steve ‘Ashcrow’ Milner Blog" target="_blank">Steve Milner</a></li>
+
+	</ul>
+</li>
+<li id="twitter_timeline-3" class="widget-container widget_twitter_timeline"><a class="twitter-timeline" data-height="600" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="5" data-lang="EN" data-widget-id="629558107845304320">My Tweets</a></li><li id="rss-3" class="widget-container widget_rss"><h3 class="widget-title"><a class="rsswidget" href="https://github.com/sadsfae.atom" title="Syndicate this content"><img style="background: orange; color: white; border: none;" width="14" height="14" src="https://s-ssl.wordpress.com/wp-includes/images/rss.png?m=1354137473h" alt="RSS" /></a> <a class="rsswidget" href="https://github.com/sadsfae" title="">Code</a></h3><ul><li><a class='rsswidget' href='https://github.com/redhat-performance/ops-tools/compare/c8c7cb4228...58f17113d3' title=''>sadsfae pushed to master at redhat-performance/ops-tools</a><div class='rssSummary'>      Jan 25, 2017      sadsfae pushed to master at redhat-performance/ops-tools                                                                          58f1711                                       add tool to clean foreman interfaces                                               </div></li><li><a class='rsswidget' href='https://github.com/redhat-performance/quads/issues/18#issuecomment-274609072' title=''>sadsfae commented on issue redhat-performance/quads#18</a><div class='rssSummary'>      Jan 23, 2017      sadsfae commented on issue redhat-performance/quads#18                     This needs to be extended to include adding a host-level parameter that triggers a snippet to perform boot ordering changes required to work around…          </div></li><li><a class='rsswidget' href='https://github.com/redhat-performance/quads/compare/4d1352ce30...32f3197842' title=''>sadsfae pushed to master at redhat-performance/quads</a><div class='rssSummary'>      Jan 23, 2017      sadsfae pushed to master at redhat-performance/quads                                                                          32f3197                                       split classes into library                                               </div></li><li><a class='rsswidget' href='https://github.com/redhat-performance/quads/issues/28' title=''>sadsfae closed issue redhat-performance/quads#28</a><div class='rssSummary'>      Jan 16, 2017      sadsfae closed issue redhat-performance/quads#28                     Incorrect notification goes out with zero assigned hosts          </div></li><li><a class='rsswidget' href='https://github.com/redhat-performance/quads/issues/28#issuecomment-272931569' title=''>sadsfae commented on issue redhat-performance/quads#28</a><div class='rssSummary'>      Jan 16, 2017      sadsfae commented on issue redhat-performance/quads#28                     We believe this was caused by an artifact of notifications being created prior to these changes to the notification framework: 4d1352c Going forwar…          </div></li></ul></li><li id="image-3" class="widget-container widget_image"><div style="overflow:hidden;"><a href="https://www.linuxcounter.net/user/208453"><img src="https://hobosource.files.wordpress.com/2015/09/208453.png?w=200&amp;h=120" alt="Linux User #208453" class="alignnone" width="200" height="120" /></a></div>
+</li><li id="image-5" class="widget-container widget_image"><div style="overflow:hidden;"><a href="https://www.redhat.com/rhtapps/verify/?certId=100-000-041"><img src="https://hobosource.files.wordpress.com/2015/10/rhce_logo.png?w=200&amp;h=105" class="alignnone" width="200" height="105" /></a></div>
+</li><li id="image-7" class="widget-container widget_image"><div style="overflow:hidden;"><img src="https://hobosource.files.wordpress.com/2016/02/ncda-logo.jpg?w=170&amp;h=135" class="alignnone" width="170" height="135" /></div>
+</li><li id="wp_tag_cloud-3" class="widget-container wp_widget_tag_cloud"><h3 class="widget-title">Tags</h3><div style="overflow:hidden"><a href='https://hobo.house/tag/ansible/' class='tag-link-4011177 tag-link-position-1' title='4 topics' style='font-size: 10.774774774775pt;'>ansible</a>
+<a href='https://hobo.house/tag/automation/' class='tag-link-44070 tag-link-position-2' title='9 topics' style='font-size: 14.558558558559pt;'>automation</a>
+<a href='https://hobo.house/tag/beer/' class='tag-link-1917 tag-link-position-3' title='2 topics' style='font-size: 8pt;'>beer</a>
+<a href='https://hobo.house/tag/cloud/' class='tag-link-69816 tag-link-position-4' title='10 topics' style='font-size: 15.063063063063pt;'>cloud</a>
+<a href='https://hobo.house/tag/comedy/' class='tag-link-6234 tag-link-position-5' title='9 topics' style='font-size: 14.558558558559pt;'>comedy</a>
+<a href='https://hobo.house/tag/cooking/' class='tag-link-6096 tag-link-position-6' title='10 topics' style='font-size: 15.063063063063pt;'>cooking</a>
+<a href='https://hobo.house/tag/dell/' class='tag-link-78 tag-link-position-7' title='2 topics' style='font-size: 8pt;'>dell</a>
+<a href='https://hobo.house/tag/desktop-linux/' class='tag-link-47664 tag-link-position-8' title='6 topics' style='font-size: 12.666666666667pt;'>desktop linux</a>
+<a href='https://hobo.house/tag/developers/' class='tag-link-20054 tag-link-position-9' title='2 topics' style='font-size: 8pt;'>developers</a>
+<a href='https://hobo.house/tag/devops/' class='tag-link-28070474 tag-link-position-10' title='9 topics' style='font-size: 14.558558558559pt;'>devops</a>
+<a href='https://hobo.house/tag/dublin/' class='tag-link-17535 tag-link-position-11' title='3 topics' style='font-size: 9.5135135135135pt;'>dublin</a>
+<a href='https://hobo.house/tag/elasticsearch/' class='tag-link-50684163 tag-link-position-12' title='3 topics' style='font-size: 9.5135135135135pt;'>elasticsearch</a>
+<a href='https://hobo.house/tag/elk/' class='tag-link-52970 tag-link-position-13' title='3 topics' style='font-size: 9.5135135135135pt;'>elk</a>
+<a href='https://hobo.house/tag/email/' class='tag-link-163 tag-link-position-14' title='2 topics' style='font-size: 8pt;'>email</a>
+<a href='https://hobo.house/tag/enemy-territory/' class='tag-link-199759 tag-link-position-15' title='2 topics' style='font-size: 8pt;'>enemy territory</a>
+<a href='https://hobo.house/tag/fedora/' class='tag-link-611 tag-link-position-16' title='2 topics' style='font-size: 8pt;'>fedora</a>
+<a href='https://hobo.house/tag/food/' class='tag-link-586 tag-link-position-17' title='4 topics' style='font-size: 10.774774774775pt;'>food</a>
+<a href='https://hobo.house/tag/foreman/' class='tag-link-916513 tag-link-position-18' title='4 topics' style='font-size: 10.774774774775pt;'>foreman</a>
+<a href='https://hobo.house/tag/gaming/' class='tag-link-1256 tag-link-position-19' title='5 topics' style='font-size: 11.783783783784pt;'>gaming</a>
+<a href='https://hobo.house/tag/hobo/' class='tag-link-330835 tag-link-position-20' title='2 topics' style='font-size: 8pt;'>hobo</a>
+<a href='https://hobo.house/tag/home-cooking/' class='tag-link-111947 tag-link-position-21' title='5 topics' style='font-size: 11.783783783784pt;'>home cooking</a>
+<a href='https://hobo.house/tag/infrastructure/' class='tag-link-32 tag-link-position-22' title='3 topics' style='font-size: 9.5135135135135pt;'>infrastructure</a>
+<a href='https://hobo.house/tag/ireland/' class='tag-link-768 tag-link-position-23' title='2 topics' style='font-size: 8pt;'>ireland</a>
+<a href='https://hobo.house/tag/italian/' class='tag-link-1642 tag-link-position-24' title='2 topics' style='font-size: 8pt;'>italian</a>
+<a href='https://hobo.house/tag/linux/' class='tag-link-610 tag-link-position-25' title='38 topics' style='font-size: 22pt;'>linux</a>
+<a href='https://hobo.house/tag/linux-gaming/' class='tag-link-661472 tag-link-position-26' title='5 topics' style='font-size: 11.783783783784pt;'>linux gaming</a>
+<a href='https://hobo.house/tag/mutt/' class='tag-link-102438 tag-link-position-27' title='2 topics' style='font-size: 8pt;'>mutt</a>
+<a href='https://hobo.house/tag/open-source/' class='tag-link-25 tag-link-position-28' title='11 topics' style='font-size: 15.567567567568pt;'>open source</a>
+<a href='https://hobo.house/tag/openstack/' class='tag-link-13108840 tag-link-position-29' title='10 topics' style='font-size: 15.063063063063pt;'>openstack</a>
+<a href='https://hobo.house/tag/pasta/' class='tag-link-18654 tag-link-position-30' title='3 topics' style='font-size: 9.5135135135135pt;'>pasta</a>
+<a href='https://hobo.house/tag/performance/' class='tag-link-1930 tag-link-position-31' title='2 topics' style='font-size: 8pt;'>performance</a>
+<a href='https://hobo.house/tag/power-management/' class='tag-link-496018 tag-link-position-32' title='2 topics' style='font-size: 8pt;'>power management</a>
+<a href='https://hobo.house/tag/privacy/' class='tag-link-3279 tag-link-position-33' title='2 topics' style='font-size: 8pt;'>privacy</a>
+<a href='https://hobo.house/tag/productivity/' class='tag-link-2704 tag-link-position-34' title='2 topics' style='font-size: 8pt;'>productivity</a>
+<a href='https://hobo.house/tag/public-cloud/' class='tag-link-17281971 tag-link-position-35' title='3 topics' style='font-size: 9.5135135135135pt;'>public cloud</a>
+<a href='https://hobo.house/tag/python/' class='tag-link-832 tag-link-position-36' title='4 topics' style='font-size: 10.774774774775pt;'>python</a>
+<a href='https://hobo.house/tag/recipe/' class='tag-link-8845 tag-link-position-37' title='9 topics' style='font-size: 14.558558558559pt;'>recipe</a>
+<a href='https://hobo.house/tag/scale/' class='tag-link-260428 tag-link-position-38' title='2 topics' style='font-size: 8pt;'>scale</a>
+<a href='https://hobo.house/tag/security/' class='tag-link-801 tag-link-position-39' title='7 topics' style='font-size: 13.297297297297pt;'>security</a>
+<a href='https://hobo.house/tag/server/' class='tag-link-18568 tag-link-position-40' title='2 topics' style='font-size: 8pt;'>server</a>
+<a href='https://hobo.house/tag/shell/' class='tag-link-43912 tag-link-position-41' title='3 topics' style='font-size: 9.5135135135135pt;'>shell</a>
+<a href='https://hobo.house/tag/sketch/' class='tag-link-16227 tag-link-position-42' title='6 topics' style='font-size: 12.666666666667pt;'>sketch</a>
+<a href='https://hobo.house/tag/skit/' class='tag-link-215972 tag-link-position-43' title='4 topics' style='font-size: 10.774774774775pt;'>skit</a>
+<a href='https://hobo.house/tag/stout/' class='tag-link-59313 tag-link-position-44' title='2 topics' style='font-size: 8pt;'>stout</a>
+<a href='https://hobo.house/tag/sysadmin/' class='tag-link-13505 tag-link-position-45' title='27 topics' style='font-size: 20.234234234234pt;'>sysadmin</a>
+<a href='https://hobo.house/tag/trystack/' class='tag-link-81087107 tag-link-position-46' title='3 topics' style='font-size: 9.5135135135135pt;'>trystack</a>
+<a href='https://hobo.house/tag/urban-terror/' class='tag-link-2384884 tag-link-position-47' title='3 topics' style='font-size: 9.5135135135135pt;'>urban terror</a>
+<a href='https://hobo.house/tag/vegetarian/' class='tag-link-23207 tag-link-position-48' title='3 topics' style='font-size: 9.5135135135135pt;'>vegetarian</a>
+<a href='https://hobo.house/tag/what/' class='tag-link-2911 tag-link-position-49' title='2 topics' style='font-size: 8pt;'>what</a>
+<a href='https://hobo.house/tag/will-foster/' class='tag-link-12505354 tag-link-position-50' title='2 topics' style='font-size: 8pt;'>will foster</a></div></li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="site-info">
+				<a href="https://hobo.house/" title="hobo.house" rel="home">
+					hobo.house				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+								<a href="https://wordpress.com/?ref=footer_custom_svg" title="Create a website or blog at WordPress.com"><svg style="fill: currentColor; position: relative; top: 1px;" width="14px" height="15px" viewBox="0 0 14 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="title" role="img">
+				<title id="title">Create a website or blog at WordPress.com</title>
+				<path d="M12.5225848,4.97949746 C13.0138466,5.87586309 13.2934037,6.90452431 13.2934037,7.99874074 C13.2934037,10.3205803 12.0351007,12.3476807 10.1640538,13.4385638 L12.0862862,7.88081544 C12.4453251,6.98296834 12.5648813,6.26504621 12.5648813,5.62667922 C12.5648813,5.39497674 12.549622,5.17994084 12.5225848,4.97949746 L12.5225848,4.97949746 Z M7.86730089,5.04801561 C8.24619178,5.02808979 8.58760099,4.98823815 8.58760099,4.98823815 C8.9267139,4.94809022 8.88671369,4.44972248 8.54745263,4.46957423 C8.54745263,4.46957423 7.52803983,4.54957381 6.86996227,4.54957381 C6.25158863,4.54957381 5.21247202,4.46957423 5.21247202,4.46957423 C4.87306282,4.44972248 4.83328483,4.96816418 5.17254589,4.98823815 C5.17254589,4.98823815 5.49358462,5.02808979 5.83269753,5.04801561 L6.81314716,7.73459399 L5.43565839,11.8651647 L3.14394256,5.04801561 C3.52312975,5.02808979 3.86416859,4.98823815 3.86416859,4.98823815 C4.20305928,4.94809022 4.16305906,4.44972248 3.82394616,4.46957423 C3.82394616,4.46957423 2.80475558,4.54957381 2.14660395,4.54957381 C2.02852925,4.54957381 1.88934333,4.54668493 1.74156477,4.54194422 C2.86690406,2.83350881 4.80113651,1.70529256 6.99996296,1.70529256 C8.638342,1.70529256 10.1302017,2.33173369 11.2498373,3.35765419 C11.222726,3.35602457 11.1962815,3.35261718 11.1683554,3.35261718 C10.5501299,3.35261718 10.1114609,3.89113285 10.1114609,4.46957423 C10.1114609,4.98823815 10.4107217,5.42705065 10.7296864,5.94564049 C10.969021,6.36482346 11.248578,6.90326506 11.248578,7.68133501 C11.248578,8.21992476 11.0413918,8.84503256 10.7696866,9.71584277 L10.1417574,11.8132391 L7.86730089,5.04801561 Z M6.99996296,14.2927074 C6.38218192,14.2927074 5.78595654,14.2021153 5.22195356,14.0362644 L7.11048207,8.54925635 L9.04486267,13.8491542 C9.05760348,13.8802652 9.07323319,13.9089317 9.08989995,13.9358945 C8.43574834,14.1661896 7.73285573,14.2927074 6.99996296,14.2927074 L6.99996296,14.2927074 Z M0.706448182,7.99874074 C0.706448182,7.08630113 0.902152921,6.22015756 1.25141403,5.43749503 L4.25357806,13.6627848 C2.15393732,12.6427902 0.706448182,10.4898387 0.706448182,7.99874074 L0.706448182,7.99874074 Z M6.99996296,0.999 C3.14016476,0.999 0,4.13905746 0,7.99874074 C0,11.8585722 3.14016476,14.999 6.99996296,14.999 C10.8596871,14.999 14,11.8585722 14,7.99874074 C14,4.13905746 10.8596871,0.999 6.99996296,0.999 L6.99996296,0.999 Z" id="wordpress-logo-simplified-cmyk" stroke="none" fill=“currentColor” fill-rule="evenodd"></path>
+			</svg></a>
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+<!--  -->
+		<script type="text/javascript">
+			!function(d,s,id){
+				var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+				if(!d.getElementById(id)){
+					js=d.createElement(s);
+					js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
+					fjs.parentNode.insertBefore(js,fjs);
+				}
+			}(document,"script","twitter-wjs");
+		</script>
+		<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201704y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-6d23a9836814809639d8879760cc90fe">
+	</div>
+	<div class="grofile-hash-map-497f917ed3459095d5ef53393cbeb195">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/hobosource.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/hobosource.wordpress.com\/wp-login.php?action=logout&_wpnonce=391246e40e","homeURL":"https:\/\/hobo.house\/","postID":"796","gravDefault":"retro","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="97009115" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://hobo.house" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="hobo.house" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="a6613c9611" /><input type="hidden" name="_wp_http_referer" value="/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/hobo.house\/2015\/12\/18\/linux-laptop-power-usage-tuning-with-powertop\/":796};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+							<script type="text/javascript">
+				jQuery(document).on('ready', function(){
+					jQuery('body').on('click', 'a.share-pinterest', function(e){
+						e.preventDefault();
+						// Load Pinterest Bookmarklet code
+						var s = document.createElement("script");
+						s.type = "text/javascript";
+						s.src = window.location.protocol + "//assets.pinterest.com/js/pinmarklet.js?r=" + ( Math.random() * 99999999 );
+						var x = document.getElementsByTagName("script")[0];
+						x.parentNode.insertBefore(s, x);
+						// Trigger Stats
+						var s = document.createElement("script");
+						s.type = "text/javascript";
+						s.src = this + ( this.toString().indexOf( '?' ) ? '&' : '?' ) + 'js_only=1';
+						var x = document.getElementsByTagName("script")[0];
+						x.parentNode.insertBefore(s, x);
+					});
+				});
+			</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-tumblr' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-telegram' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtelegram', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-pocket' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-skype' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomskype', 'menubar=1,resizable=1,width=305,height=665' );
+				return false;
+			});
+		});
+		</script>
+			<div id="sharing_email" style="display: none;">
+		<form action="/2015/12/18/linux-laptop-power-usage-tuning-with-powertop/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" />
+			<script> document.getElementById('jetpack-source_f_name').value = ''; </script>
+			<div class="recaptcha" id="sharing_recaptcha"></div><input type="hidden" name="recaptcha_public_key" id="recaptcha_public_key" value="6LcYW8MSAAAAADBAuEH9yaPcF7lWh11Iq62ZKtoo" />
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431h'></script>
+<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1481571546h' type='text/css' media='all' />
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='all-css-2-3' href='https://s2.wp.com/wp-content/mu-plugins/genericons/genericons/genericons.css?m=1443615899h' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"97009115","siteName":"hobo.house","siteURL":"https:\/\/hobo.house","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/baae707ac9af38ebec63a0f633216b07?s=50&d=https%3A%2F%2Fs1.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/twentyten","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/hobosource.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F","themeURL":"https:\/\/wordpress.com\/themes\/twentyten\/","xhrURL":"https:\/\/hobo.house\/wp-admin\/admin-ajax.php","nonce":"d23e26e4fc","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"805a2a4a9a\" \/>","referer":"https:\/\/hobo.house\/2015\/12\/18\/linux-laptop-power-usage-tuning-with-powertop\/","canFollow":"","statusMessage":"","customizeLink":"https:\/\/hobosource.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fhobosource.wordpress.com%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F","postID":"796","shortlink":"http:\/\/wp.me\/p6z2v9-cQ","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/hobo.house\/796","statsLink":"https:\/\/wordpress.com\/stats\/post\/796\/hobo.house","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Twenty Ten","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 42 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/hobosource.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/hobo.house\/wp-admin\/admin-ajax.php","nonce":"e212e8e25a","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/hobosource.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fhobo.house%2F2015%2F12%2F18%2Flinux-laptop-power-usage-tuning-with-powertop%2F","blog_id":"97009115","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=97009115&v=wpcom&tz=0&user_id=0&subd=hobosource","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVUEmuwjAMvRCphX6L2KB/lpAacMiEnTDcnlRQKBKqxMrWmzzAJSkTQ8aQwQr0eCaD6dpYWcCE8kUlV/YUBBwdUeBUsOBBh94hj2IKxpW+kjXIRO+rUTEmd2s8hZnEUftItsOILciFEv5i+gBmjLqv26itZvBaMnLtVDwjMw2rv7C5BJMphiHh1X17gaT31VPc1t/x7VmaqerbmZpjEXRgMSdtjmoEZjwpSlY7p4lBDpop7MdaTf9+s2zXXde2q7/O3gHfcr9z'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20160429#ver=20160429' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="//stats.wp.com/w.js?55" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'97009115','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'97009115','v':'wpcom','tz':'0','user_id':'0','post':'796','subd':'hobosource'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dzK3YrWW16RTB3dWZLL1ZyVmRMRGFdNVlnZTF8TnxsJUJMTTZaNmJ6flFvZGNxbC1oam0yTCZjR0ZHKyYvLjhHdkIyNlYtRjRmfHo2NVIvMjldVjlQUCV6JWwsXUlyR3VFTVRNZ1lLT1VKdkg/OVg5cmg4NFFmaF10ZlZVST0mWWpTeEJXOSxoMiZlbGJoLkN+SWsrYXk/TmV3YTFzRVB8aWZRV0xxVkp6LFpdLS5daWI0cm4mLVRYY0Q2b11lNld6OV9tLXZwR1RZP3pHRXk0b0k5bUZrWj1oLXdqUFFsaGQ/R1BWbzBtRUplQ0xkLUFSTytIQ2ZKS0p6SEFqfCxFM2ZJWU5tZ1k9Ti5sTlJdLlgrZWdsL2ZJODFwYkt5MXlJLWtBRmRGNyxJZlRKWDJOQTI='}]);
+_stq.push([ 'clickTrackerInit', '97009115', '796' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>

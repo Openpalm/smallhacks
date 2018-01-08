@@ -1,0 +1,5 @@
+# enable extglob to perform regex on rm
+# delete files not starting with en or de (used to cleanup vim spell)
+
+shopt -s extglob 
+rm -- !(en*|de*)

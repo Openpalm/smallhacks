@@ -1,0 +1,10 @@
+split -v
+screen -t s1
+resize +10
+resize +10
+resize +10
+
+focus
+screen -t s2
+
+focus
