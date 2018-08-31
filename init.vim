@@ -1,105 +1,422 @@
+"""""""""""""""""""
+" preamble        "
+"""""""""""""""""""
+if empty(glob('~/.vim/autoload/plug.vim'))
+    !wget -P ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+else
+    echo "Plug found. skipping."
+endif
+if executable('git')
+    echo "git found. skipping."
+else
+    echo "installing git ..."
+    !sudo apt-get install git
+endif
+if executable('python3')
+    echo "python3 found. skipping."
+    !sudo -H pip3 install --upgrade pip
+else
+    echo "installing python 3 ..."
+    !sudo apt-get install python3-dev
+    !sudo -H pip3 install --upgrade pip
+endif
 
-"dnf -y install neovim
-"dnf -y install python2-neovim python3-neovim
-"
-"The default config file location is:
-"~/.config/nvim/init.vim
-"
-"the plugin manager
-"
-"cd ~/.config/nvim/autoload &&
-"wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" run nvim, type :PlugInstall
-"
-"install psutil
-"pip3 install psutil
-"
-"Fedora specific before installing psutil:
-"dnf install redhat-rpm-config
-"dnf install python3-devel
-"
-"update remotes before processing to get rid of any errors
-"
-"spidermokney-bin
-"rhino
-"
+if executable('ctags-exuberant')
+    echo "exuberant ctags found. skipping."
+else
+    echo "installing exuberant ctags skipping ..."
+    !sudo apt-get install ctags
+    !sudo apt-get install exuberant-ctags
+endif
+if executable('screen')
+    echo "screen found. skipping."
+else
+    !sudo apt-get install screen
+    !wget https://raw.githubusercontent.com/Shokodemon/smallhacks/master/screenrc_cnc ~/.screenrc
+endif
 
-filetype off                  " required
+"""""""""""""""""""
+" vim conf start  "
+"""""""""""""""""""
+set nu
+call plug#begin()
+" - VIM PLUG
 
-function! DoRemote(arg)
-  UpdateRemotePlugins
+" deoplete plugin for autocomplete
+
+" autotag plugin to automatically generate ctags file
+Plug 'craigemery/vim-autotag'
+
+" ctags stuff
+
+set tags=.tags
+let g:autotagTagsFile=".tags"
+" Map the leader key to fullstop
+let mapleader = "."
+
+"Nerdtree
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'greggerz/nerdtree-svn-plugin'
+
+"git
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+"svn
+let g:NERDTreeSvnIndicatorMapCustom = {
+      \ 'Modified'  : '✹',
+      \ 'Addition'  : '✚',
+      \ 'Untracked' : '✭',
+      \ 'Replaced'  : '➜',
+      \ 'Deleted'   : '✖',
+      \ 'Dirty'     : '✗',
+      \ 'Clean'     : '✔︎',
+      \ 'Ignored'   : '☒',
+      \ 'Missing'   : '⁈',
+      \ 'Conflict'  : '⇏',
+      \ 'Externals' : '↰',
+      \ 'Unknown'   : '?'
+      \ }
+map <C-i> :TagbarToggle<CR>
+nnoremap <F9> :NERDTreeToggle<CR>
+
+
+nnoremap .s     :%s/\s\+$//<CR>
+nnoremap .r     :source ~/.config/nvim/init.vim<CR>
+nnoremap .w     :w!<CR>
+nnoremap .wq    :wq!<CR>
+nnoremap .q     :q!<CR>
+
+" Regenerate tags file
+map .c :!ctags -R -f ./.tags .<CR>
+
+"optional, prefer fzf
+Plug 'ctrlpvim/ctrlp.vim'
+
+" Ripgrep for file indexing, sort of faster, but not really, but also why not use ripgrep for everything
+if executable('rg')
+    let $FZF_DEFAULT_COMMAND = 'rg --files --no-messages "" .'
+    set grepprg=rg\ --vimgrep
+endif
+
+
+
+"togglelist - toggle quickfix list with leader-q
+let g:toggle_list_no_mappings = 1
+nmap <script> <leader>q :call ToggleQuickfixList()<CR>
+
+" Use FZF for files and tags if available, otherwise fall back onto CtrlP
+" <leader>\ will search for tag using word under cursor
+let g:fzf_command_prefix = 'FZF'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'sudo ./install --all' }
+"Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': 'sudo ./install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+set rtp+=~/.fzf
+nnoremap <leader>f :FZF ~/work/ <cr>
+"nnoremap <leader>t :FzfTags<cr>
+"nnoremap <leader>u :call fzf#vim#tags("'".expand('<cword>'))<cr>
+
+
+"if executable('fzf')
+"    echo found fzf.
+"
+"    Plug 'autozimu/LanguageClient-neovim', {
+"        \ 'branch': 'next',
+"        \ 'do': 'bash install.sh',
+"        \ }
+"
+"    " (Optional) Multi-entry selection UI.
+"    "
+"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"    "
+"
+"
+"    nnoremap <leader>f :FzfFiles<cr>
+"    nnoremap <leader>t :FzfTags<cr>
+"    nnoremap <leader>u :call fzf#vim#tags("'".expand('<cword>'))<cr>
+"else
+"
+"    !echo fzf not found, installing.
+"    !git clone https://github.com/junegunn/fzf
+"    !cd ${PWD} && ./install
+"
+"    nnoremap <leader>f :CtrlP<Space><cr>
+"    nnoremap <leader>t :CtrlPTag<Space><cr>
+"
+"endif
+
+let g:tagbar_type_scala = {
+            \ 'ctagstype' : 'scala',
+            \ 'sro'        : '.',
+            \ 'kinds'     : [
+            \ 'p:packages',
+            \ 'T:types:1',
+            \ 't:traits',
+            \ 'o:objects',
+            \ 'O:case objects',
+            \ 'c:classes',
+            \ 'C:case classes',
+            \ 'm:methods',
+            \ 'V:values:1',
+            \ 'v:variables:1'
+            \ ]
+            \ }
+
+" deoplete stuff
+
+let g:deoplete#enable_at_startup = 1
+
+" Remap <tab> to allow cycling through the deoplete list, but only when the
+" deoplete list window is open. Leave <tab> alone the rest of the time.
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+
+" Here's the complete list of my neovim plugins, in case you're interested
+" General
+Plug 'scrooloose/nerdcommenter'
+
+
+"" Add spaces after comment delimiters by default
+"" let g:NERDSpaceDelims = 1
+""
+"" " Use compact syntax for prettified multi-line comments
+" let g:NERDCompactSexyComs = 1
+""
+"" " Align line-wise comment delimiters flush left instead of following code
+"" indentation
+" let g:NERDDefaultAlign = 'left'
+""
+"" " Set a language to use its alternate delimiters by default
+" let g:NERDAltDelims_java = 1
+"" let g:NERDAltDelims_scala= 1
+"""
+"" " Add your own custom formats or override the defaults
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+""
+"" " Allow commenting and inverting empty lines (useful when commenting a
+"" region)
+" let g:NERDCommentEmptyLines = 1
+""
+"" " Enable trimming of trailing whitespace when uncommenting
+" let g:NERDTrimTrailingWhitespace = 1
+""
+"" " Enable NERDCommenterToggle to check all selected lines is commented or not
+" let g:NERDToggleCheckAllLines = 1
+
+Plug 'scrooloose/syntastic'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'tpope/vim-unimpaired'
+Plug 'godlygeek/tabular'
+Plug 'sbdchd/neoformat'
+Plug 'luochen1990/rainbow'
+Plug 'mattn/emmet-vim'
+Plug 'justinmk/vim-sneak'
+Plug 'embear/vim-localvimrc'
+Plug 'cloudhead/neovim-fuzzy'
+Plug 'bling/vim-airline'
+Plug 'milkypostman/vim-togglelist'
+
+
+Plug 'vim-scripts/Scala-Java-Edit'
+
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
+
+set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+                \   '%dW %dE',
+                \   all_non_errors,
+                \   all_errors
+                \)
 endfunction
 
+"set statusline+=%{LinterStatus()}
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_scala_checkers = ['scalac']
+"nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+"nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 
-call plug#begin('~/.vim/plugged')
-Plug 'Valloric/YouCompleteMe'
+" Tags
 Plug 'majutsushi/tagbar'
-Plug 'neomake/neomake'
-Plug 'vimlab/neojs'
-Plug 'ternjs/tern_for_vim'
+Plug 'craigemery/vim-autotag'
 
-Plug 'tpope/vim-fugitive'
-Plug 'bling/vim-airline'
-Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'easymotion/vim-easymotion'
-Plug 'benmills/vimux'
-Plug 'dracula/vim'
-Plug 'rodjek/vim-puppet'
-Plug 'kchmck/vim-coffee-script'
+" Git
 Plug 'airblade/vim-gitgutter'
-Plug 'derekwyatt/vim-scala'
-Plug 'guns/vim-clojure-static'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'junegunn/vim-easy-align'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'Valloric/MatchTagAlways'
-Plug 'jiangmiao/auto-pairs'
-Plug 'c0r73x/neotags.nvim',  { 'do': function('DoRemote') }
+Plug 'tpope/vim-fugitive'
 
-Plug 'gosukiwi/vim-atom-dark'
 
-Plug 'Shougo/unite.vim'
-Plug 'vim-syntastic/syntastic'
-call plug#end()              " required
-" ycpme
-
-if !exists("g:ycm_semantic_triggers")
-  let g:ycm_semantic_triggers = {}
+" Language plugins
+" Scala plugins
+if executable('scalac')
+    Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+"    Plug 'w0rp/ale'
 endif
-let g:ycm_semantic_triggers['typescript'] = ['.']
 
-" Non-Plug stuff after this line
-" ================================
+if executable('rg')
+    echo "rigrip available, remapping fzf#vim#grep ..."
+    command! -bang -nargs=* Rg
+                \ call fzf#vim#grep(
+                \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+                \   <bang>0 ? fzf#vim#with_preview('up:60%')
+                \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+                \   <bang>0)
+else
+    echo "installing rigrip 0.9 from gitrepo ..."
+    !curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep_0.9.0_amd64.deb
+    !sudo dpkg -i ripgrep_0.9.0_amd64.deb
+endif
+Plug 'eed3si9n/LanguageClient-neovim'
+" SBT server
+"set signcolumn=yes
+"let g:LanguageClient_autoStart = 1
+"let g:LanguageClient_serverCommands = {
+"    \ 'scala': ['fsc']
+"    \ }
+"let g:LanguageClient_serverCommands = {
+"            \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')]
+"            \ }
+"nnoremap gd :call LanguageClient_textDocument_definition()<CR>
+"set omnifunc=LanguageClient#complete
+"set formatexpr=LanguageClient_textDocument_rangeFormatting()
+"
+"let b:ale_fixers = ['fsc', 'scalac', 'scalastyle']
+"let g:ale_fix_on_save = 1
+"let g:ale_lint_on_text_changed = 1
+"let g:ale_completion_enabled = 1
 
-"ctags auto completion @ leonard.io/blog/2013/04/editing-scala-with-vim/
-set tags=./tags;,tags;/
-let g:auto_save_events = ["InsertLeave", "TextChanged"]
-let g:scala_sort_across_groups=1
-set regexpengine=1
-nnoremap <C-T> <C-w>g] <C-r><C-w>
 
+
+"if executable('sbt')
+"    Plug 'derekwyatt/vim-sbt'
+"endif
+
+"colorscheme
+Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
+call plug#end()
+"colorscheme archery
+
+
+" LOOK AND SYNTAX HILIGHTING {{{
+"fix for mac terminal colors going weird
+if $TERM =~ '^\(xterm\|interix\|putty\)\(-.*\)\?$'
+    set notermguicolors
+else
+    set termguicolors
+endif
+
+syntax on
+set background=dark
+
+"colorscheme industry
+"let g:airline_theme = 'industry'
+
+"set cursorline
+
+"shortcut to move physical lines Alt-j and Alt-k
+"nnoremap <A-j> :m .+1<CR>==
+"nnoremap <A-k> :m .-2<CR>==
+"inoremap <A-j> <Esc>:m .+1<CR>==gi
+"inoremap <A-k> <Esc>:m .-2<CR>==gi
+"vnoremap <A-j> :m '>+1<CR>gv=gv
+"vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" change vim scroll keys
+"nnoremap <C-J> <C-D>
+"nnoremap <C-K> <C-U>
+"
+"" change jump to definition
+nnoremap <leader>. <C-]>
+nnoremap <leader>, <C-T>
+"
+"" easier split navigations
+"nnoremap <leader>j <C-W><C-J>
+"nnoremap <leader>k <C-W><C-K>
+"nnoremap <leader>l <C-W><C-L>
+"nnoremap <leader>h <C-W><C-H>
+
+
+" airline
+set laststatus=2
+let g:airline_left_sep=""
+let g:airline_left_alt_sep="|"
+let g:airline_right_sep=""
+let g:airline_right_alt_sep="|"
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number not number of split panes
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#hunks#enabled = 0
+let g:airline_section_z = ""
+
+
+"Bassel
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4
 set autoindent
 set smartindent
 set nu
 
-%retab
+set wrapscan
 
-"Use deoplete
-"let g:python3_host_prog = "~/.pyenv/versions/neovim3/bin/python3"
-"let g:deoplete#enable_at_startup = 1
+if exists("*shiftwidth")
+    func! s:sw()
+        return shiftwidth()!
+    endfunc
+else
+    func! s:sw()
+        return &sw
+    endfunc
+endif
 
-" Neomake on save
-autocmd! BufWritePost * Neomake
+"#######################
+"space tabs, instead of real tabs.
+"#######################
+set tabstop=2
+"set noexpandtab
+set expandtab
+"set tabstop=2
 
+
+
+
+"#######################
+"ruler and measurements
+"#######################
+set ruler "Always show current position"
+set nu "enables line numbers "
+set relativenumber
+set foldmethod=indent
+"set foldnestmax=10
+set nofoldenable
+set foldlevel=1
 
 let g:auto_save = 1
-"autocmd TextChanged,TextChangedI <buffer> silent write
-set backup                  " enable backups
+set backup                        " enable backups
 set noswapfile
 
 set undodir=~/tmp/undo/     " undo files
@@ -111,17 +428,14 @@ if !isdirectory(expand(&undodir))
     call mkdir(expand(&undodir), "p")
 endif
 if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), "p")
-endif
-if !isdirectory(expand(&directory))
+    call mkdir(expand(&backupdir), "p") endif if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 
-set history=10000
+set history=1000
 set undofile "we like the undo file"
-set undolevels=10000
-set undoreload=10000
-
+set undolevels=1000
+set undoreload=1000
 " swap dir
 augroup NoSimulataneousEdits
     autocmd!
@@ -133,157 +447,66 @@ augroup END
 
 
 
-" Gitgutter show more signs
-let g:gitgutter_max_signs = 1500
-
-" Function for number toggle
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <C-N> :call NumberToggle()<cr>
-
-" Function for whitespace toggle
-function! WhitespaceToggle()
-  set listchars=eol:¬,tab:--,trail:~,extends:>,precedes:<
-  if(&list ==1)
-    set nolist
-  else
-    set list
-  endif
-endfunc
-
-function! TrimWhitespace()
-    let l:save_cursor = getpos('.')
-    %s/\s\+$//e
-    call setpos('.', l:save_cursor)
-endfun
-
-"command! TrimWhitespace call TrimWhitespace() " Trim whitespace with command
-"autocmd BufWritePre * :call TrimWhitespace() " Trim whitespace on every save
-
-" Non-mapped function for tab toggles
-function! TabToggle()
-  if &expandtab
-    set noexpandtab
-  else
-    set expandtab
-  endif
-endfunc
-
-" Remappings
-"        Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-"    Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-"    Disable arrows
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-"    Nerdtree
-autocmd FileType nerdtree setlocal nolist
-"let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-
-" Other options
-set relativenumber
-set number
-let mapleader=','
-set backspace=2
-colorscheme torte
+"#######################
+" colorization
+"#######################
+syntax enable
+set ofu=syntaxcomplete#Complete
 syntax on
-set shell=/bin/bash
-set laststatus=2
-set noshowmode
-
-" Draw a line at 80 columns
-set colorcolumn=80
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-
-" Check the function above, these
-" are my default values
-set tabstop=4
-set shiftwidth=4
-set expandtab
 
 "#######################
-" custom aliases, universally shared
-" for convenience
+"bracket completion"
 "#######################
-nnoremap <F3> :PlugInstall<CR>
-nnoremap <F4> :source ~/.config/nvim/init.vim<CR>
-"saves session"
-nnoremap <F5> :call SaveSess()<CR>
-"restores session"
-nnoremap <F6> :source ./session.vim<CR>
-nnoremap <F7> :!svn commit -m "committing %"<CR>
-nnoremap <F8> :TagbarToggle<CR>
-nnoremap <F9> :NERDTreeToggle<CR>
-nnoremap <C-c> :!sbt clean compile run<CR>
 
-nnoremap <C-a> :res +1<CR>
-nnoremap <C-q> :res -1<CR>
-nnoremap <C-f> :vertical res +1<CR>
-nnoremap <C-d> :vertical res -1<CR>
+inoremap <C-j> <Esc>:call search(BC_GetChar(), "W")<CR>a
 
-nnoremap qqq :q! <CR>
-nnoremap ttt :write! <CR><CR>
-nnoremap sss :%s/\s\+$//<CR>
+function! BC_AddChar(schar)
+    if exists("b:robstack")
+        let b:robstack = b:robstack . a:schar
+    else
+        let b:robstack = a:schar
+    endif
+endfunction
 
-"##
-"session save and restore
-"##
-fu! SaveSess()
-    "incase we mess up by clicking f5 instead of f6. one time protection.
-    "
-    "so use with care.
-    execute '!mv session.vim session.vim.old'
-    execute 'mksession! session.vim'
+function! BC_GetChar()
+    let l:char = b:robstack[strlen(b:robstack)-1]
+    let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
+    return l:char
 endfunction
 
 
-"grepping for text in files, useful.
-fu! Gfind(src, text)
-
+function! BC_jumpBackChar(num)
+    let l:char = b:robstack[strlen(b:robstack)-1]
+    let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
+    return l:char
 endfunction
 
-"save instead of :w
-fu! SaveW()
-    command! w Write
-endfunction
-echo ' <F3> :PlugInstall<CR>'
-echo ' <F4> :source ~/.config/nvim/init.vim<CR>'
-echo ' <F5> :mksession ./vimsession<CR>'
-echo ' <F6> :source ./vimsession<CR>'
-echo ' <F7> :!svn commit -m "committing %"<CR>'
-echo ' <F8> :TagbarToggle<CR>'
-echo ' <F9> :NERDTreeToggle<CR>'
-echo ' <C-c> :!sbt clean compile run<CR>'
-echo ' <C-a> :res +1<CR>'
-echo ' <C-q> :res -1<CR>'
-echo ' <C-f> :vertical res +1<CR>'
-echo ' <C-d> :vertical res -1<CR>'
-echo ' qqq :q! <CR>'
-echo ' sss :%s/\s\+$//<CR>'
 
-" Neomake When writing a buffer.
-call neomake#configure#automake('w')
-let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-" Syntastic, again...
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+inoremap _( ()<Esc>:call BC_AddChar(")")<CR>i
+inoremap _{ {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
+inoremap _[ []<Esc>:call BC_AddChar("]")<CR>i
+inoremap _" ""<Esc>:call BC_AddChar("\"")<CR>i
+inoremap _' ''<Esc>:call BC_AddChar("\'")<CR>i
 
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType scala setlocal omnifunc=scalacomplete#CompleteTags
 
+"custom remaps
+
+"update + close side window when done
+
+"echo "Updating plugins ...\n"
+":PlugClean
+":PlugInstall
+":PlugUpdate
+":q
+
+
+nnoremap <Leader>- <Esc>:vertical resize +5<CR>
+nnoremap <Leader>= <Esc>:vertical resize -5<CR>
 
