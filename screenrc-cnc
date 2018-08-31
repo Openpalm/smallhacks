@@ -1,0 +1,71 @@
+startup_message off # skip splash screen
+vbell off # Kill the annoying dog
+
+# Voodoo
+hardstatus alwayslastline
+hardstatus string '%{= wk}%-Lw%{= KW}%50>%n%f* %t%{= dK}%+Lw%<'
+
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on"
+
+
+#Seitenbau vim/nvim development IDE screen split
+#top split
+split
+resize -36 #distance to top of "editor" screen split
+screen -t intrapp-cli bash -c 'intrapp-cli'
+#"left" bottom refocus and split
+focus
+split -v
+resize +25 #width of "editor" screen split
+screen -t nvim # manually start nvim. auto start is colorless
+
+#right side split split
+focus
+split
+screen -t intrapp_cdd_compile bash -c 'cd ~/work/infra/intrapp-cli/trunk && sbt "~ compile"'
+
+# focus into lower part right side and split it again
+focus
+split
+screen -t intrapp_cdd_run     bash -c 'cd ~/work/infra/intrapp-cli/trunk && sbt "~ run"'
+resize +25 #width of "editor" screen split
+split
+focus
+screen -t htop htop #start a term
+
+#focus into "3rd" right side box and split it
+#this group for 4 was a bit tricky to setup.
+#trial and error.
+focus
+split  -v
+split
+screen -t DNS         ping 192.168.160.2
+focus
+screen -t Intrapp     ping 192.168.160.16
+focus
+split
+screen -t Jenkins     ping 192.168.160.6
+focus
+screen -t Cobbler     ping 192.168.160.4
+
+
+##focus into lower right box and start htop
+#focus
+#screen -t local_htop sh -c "htop" #start a term
+
+
+# Arrow keys to switch terminals (only works with X)
+# Alt + left arrow
+
+bindkey ^[[1;5C prev
+bindkey ^[[1;5D next
+# Ctrl + k
+bindkey ^K focus
+# # Alt + right
+
