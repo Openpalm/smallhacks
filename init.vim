@@ -1,59 +1,127 @@
 """""""""""""""""""
-" preamble        "
-"""""""""""""""""""
+" preambl3333     "
+"""""""""""""gog!q2w1e4r3""""""
+"""""""
+"PLUG
+"""""""
 if empty(glob('~/.vim/autoload/plug.vim'))
-    !wget -P ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+!wget -P ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 else
-    echo "Plug found. skipping."
+echo "Plug found. skipping."
 endif
+"""""""
+"GIT
+"""""""
 if executable('git')
-    echo "git found. skipping."
+echo "git found. skipping."
 else
-    echo "installing git ..."
-    !sudo apt-get install git
+echo "installing git ..."
+!sudo apt-get -y install git
 endif
-if executable('python3')
-    echo "python3 found. skipping."
-    !sudo -H pip3 install --upgrade pip
+"""""""
+"SVN
+"""""""
+if executable('svn')
+echo "svn found. skipping."
 else
-    echo "installing python 3 ..."
-    !sudo apt-get install python3-dev
-    !sudo -H pip3 install --upgrade pip
+echo "installing svn ..."
+!sudo apt-get -y install subversion
 endif
 
-if executable('ctags-exuberant')
-    echo "exuberant ctags found. skipping."
+"""""""
+"PYTHON
+"""""""
+if executable('python3')
+echo "python3 found. skipping."
+"!sudo -H pip3 -y install --upgrade pip
 else
-    echo "installing exuberant ctags skipping ..."
-    !sudo apt-get install ctags
-    !sudo apt-get install exuberant-ctags
+echo "installing python 3 ..."
+!sudo apt-get -y install python3-dev
+" !sudo -H pip3 -y install --upgrade pip
 endif
+"""""""
+"CTAGS
+"""""""
+"if executable('ctags-exuberant')
+"echo "exuberant ctags found. skipping."
+"else
+"echo "installing exuberant ctags skipping ..."
+"!sudo apt-get -y install ctags
+"!sudo apt-get -y install exuberant-ctags
+"endif
+"""""""
+"SCREEN
+"""""""
 if executable('screen')
-    echo "screen found. skipping."
+echo "screen found. skipping."
 else
-    !sudo apt-get install screen
-    !wget https://raw.githubusercontent.com/Shokodemon/smallhacks/master/screenrc_cnc ~/.screenrc
+!sudo apt-get -y install screen
+!wget https://raw.githubusercontent.com/Shokodemon/smallhacks/master/screenrc_cnc ~/.screenrc
+endif
+"""""""
+"SCALA
+"""""""
+if executable('scalac')
+echo "scala found. skipping."
+else
+echo "installing scala and sbt ..."
+!sudo apt-get -y install scala sbt
+endif
+"""""""
+"JAVA
+"""""""
+if executable('java')
+echo "java found. skipping."
+else
+echo "installing java 8..."
+!sudo apt-get -y install openjdk-8-jdk
+endif
+"""""""
+"HTOP
+"""""""
+if executable('htop')
+echo "htop found. skipping."
+else
+echo "installing htop..."
+!sudo apt-get -y install htop
+endif
+"""""""
+"GCC
+"""""""
+if executable('gcc')
+echo "gcc found. skipping."
+else
+echo "installing gcc..."
+!sudo apt-get -y install gcc
+endif
+if executable('rg')
+echo "ripgrep found. skipping."
+else
+echo "installing ripgrep..."
+!sudo apt-get -y install ripgrep
+endif
+if executable('fzf')
+echo "fzf found. skipping."
+else
+echo "installing fzf..."
+!git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+!exec ~/.fzf/install
 endif
 
 """""""""""""""""""
 " vim conf start  "
 """""""""""""""""""
+
 set nu
 call plug#begin()
 " - VIM PLUG
-
-" deoplete plugin for autocomplete
-
-" autotag plugin to automatically generate ctags file
-Plug 'craigemery/vim-autotag'
-
+" deoplete plugin for autocomplete autotag plugin to automatically generate ctags file Plug 'craigemery/vim-autotag'
 " ctags stuff
 
 set tags=.tags
 let g:autotagTagsFile=".tags"
 " Map the leader key to fullstop
-let mapleader = "."
 
 "Nerdtree
 Plug 'scrooloose/nerdtree'
@@ -62,59 +130,69 @@ Plug 'greggerz/nerdtree-svn-plugin'
 
 "git
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
+\ "Modified"  : "✹",
+\ "Staged"    : "✚",
+\ "Untracked" : "✭",
+\ "Renamed"   : "➜",
+\ "Unmerged"  : "═",
+\ "Deleted"   : "✖",
+\ "Dirty"     : "✗",
+\ "Clean"     : "✔︎",
+\ 'Ignored'   : '☒',
+\ "Unknown"   : "?"
+\ }
 "svn
 let g:NERDTreeSvnIndicatorMapCustom = {
-      \ 'Modified'  : '✹',
-      \ 'Addition'  : '✚',
-      \ 'Untracked' : '✭',
-      \ 'Replaced'  : '➜',
-      \ 'Deleted'   : '✖',
-      \ 'Dirty'     : '✗',
-      \ 'Clean'     : '✔︎',
-      \ 'Ignored'   : '☒',
-      \ 'Missing'   : '⁈',
-      \ 'Conflict'  : '⇏',
-      \ 'Externals' : '↰',
-      \ 'Unknown'   : '?'
-      \ }
+  \ 'Modified'  : '✹',
+  \ 'Addition'  : '✚',
+  \ 'Untracked' : '✭',
+  \ 'Replaced'  : '➜',
+  \ 'Deleted'   : '✖',
+  \ 'Dirty'     : '✗',
+  \ 'Clean'     : '✔︎',
+  \ 'Ignored'   : '☒',
+  \ 'Missing'   : '⁈',
+  \ 'Conflict'  : '⇏',
+  \ 'Externals' : '↰',
+  \ 'Unknown'   : '?'
+  \ }
 map <C-i> :TagbarToggle<CR>
 nnoremap <F9> :NERDTreeToggle<CR>
 
+let mapleader = ' '
 
-nnoremap .s     :%s/\s\+$//<CR>
-nnoremap .r     :source ~/.config/nvim/init.vim<CR>
-nnoremap .w     :w!<CR>
-nnoremap .wq    :wq!<CR>
-nnoremap .q     :q!<CR>
+"delte trailing spaces
+nnoremap <leader>s            :%s/\s\+$//<CR>
+"open this file
+nnoremap <leader>e            :tab new ~/.config/nvim/init.vim<CR>
+"save
+nnoremap <leader>w            :w!<CR>
+"quit
+nnoremap <leader>q            :q!<CR>
+"ask/search pattern
+nnoremap <leader>a            :?
+"find and replace
+nnoremap <leader>r            "zyiw:exe "%s=".@z."= =gg"
+"lazy :
+nnoremap <leader><leader>     :
+"filesearch
+nnoremap <leader>g    :FZF<CR>
 
 " Regenerate tags file
 map .c :!ctags -R -f ./.tags .<CR>
 
 "optional, prefer fzf
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 
 " Ripgrep for file indexing, sort of faster, but not really, but also why not use ripgrep for everything
 if executable('rg')
-    let $FZF_DEFAULT_COMMAND = 'rg --files --no-messages "" .'
-    set grepprg=rg\ --vimgrep
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-messages "" .'
+set grepprg=rg\ --vimgrep
 endif
-
-
 
 "togglelist - toggle quickfix list with leader-q
 let g:toggle_list_no_mappings = 1
-nmap <script> <leader>q :call ToggleQuickfixList()<CR>
+"nmap <script> <leader>q :call ToggleQuickfixList()<CR>
 
 " Use FZF for files and tags if available, otherwise fall back onto CtrlP
 " <leader>\ will search for tag using word under cursor
@@ -124,10 +202,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'sudo ./install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 set rtp+=~/.fzf
-nnoremap <leader>f :FZF ~/work/ <cr>
 "nnoremap <leader>t :FzfTags<cr>
 "nnoremap <leader>u :call fzf#vim#tags("'".expand('<cword>'))<cr>
-
 
 "if executable('fzf')
 "    echo found fzf.
@@ -156,7 +232,13 @@ nnoremap <leader>f :FZF ~/work/ <cr>
 "    nnoremap <leader>t :CtrlPTag<Space><cr>
 "
 "endif
-
+" Tagbar extra mods
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let colour = a:current ? '%#StatusLine#' : '%#StatusLineNC#'
+    return colour . '[' . a:sort . '] ' . a:fname
+endfunction
+let g:tagbar_status_func = 'TagbarStatusFunc'
+let g:tagbar_iconchars = ['▶', '▼']
 let g:tagbar_type_scala = {
             \ 'ctagstype' : 'scala',
             \ 'sro'        : '.',
@@ -432,6 +514,20 @@ if !isdirectory(expand(&backupdir))
     call mkdir(expand(&directory), "p")
 endif
 
+set autoread
+""
+" Triger `autoread` when files changes on disk
+" "
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" "
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" " Notification after file change
+" " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+ autocmd FileChangedShellPost *
+   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." |
+   echohl None
+""
 set history=1000
 set undofile "we like the undo file"
 set undolevels=1000
@@ -487,6 +583,7 @@ inoremap _{ {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
 inoremap _[ []<Esc>:call BC_AddChar("]")<CR>i
 inoremap _" ""<Esc>:call BC_AddChar("\"")<CR>i
 inoremap _' ''<Esc>:call BC_AddChar("\'")<CR>i
+inoremap _< ''<Esc>:call BC_AddChar(">")<CR>i
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -509,4 +606,9 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 nnoremap <Leader>- <Esc>:vertical resize +5<CR>
 nnoremap <Leader>= <Esc>:vertical resize -5<CR>
+
+noremap <F5> :!scalafmt %<CR>
+
+let g:formatdef_scalafmt = '"scalafmt --stdin 2>/dev/null"'
+let g:formatters_scala = ['scalafmt']
 
