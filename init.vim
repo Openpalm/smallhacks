@@ -355,6 +355,7 @@ Plug 'tpope/vim-fugitive'
 " Scala plugins
 if executable('scalac')
     Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+    Plug 'mdreves/vim-scaladoc'
 "    Plug 'w0rp/ale'
 endif
 
