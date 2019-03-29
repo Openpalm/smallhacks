@@ -612,3 +612,46 @@ noremap <F5> :!scalafmt %<CR>
 let g:formatdef_scalafmt = '"scalafmt --stdin 2>/dev/null"'
 let g:formatters_scala = ['scalafmt']
 
+"magic box shit
+let g:wrap_char = '#'
+function! WrapThemHash() range
+    let lines = getline(a:firstline,a:lastline)
+    let maxl = 0
+    for l in lines
+        let maxl = len(l)>maxl? len(l):maxl
+    endfor
+    let h = repeat(g:wrap_char, maxl+4)
+    for i in range(len(lines))
+        let ll = len(lines[i])
+        let lines[i] = g:wrap_char . ' ' . lines[i] . repeat(' ', maxl-ll) . ' ' . g:wrap_char
+    endfor
+    let result = [h]
+    call extend(result, lines)
+    call add(result,h)
+    execute a:firstline.','.a:lastline . ' d'
+    let s = a:firstline-1<0?0:a:firstline-1
+    call append(s, result)
+endfunction
+
+" comment wrap
+let g:wrap_char = '"'
+function! WrapThemQuote() range
+    let lines = getline(a:firstline,a:lastline)
+    let maxl = 0
+    for l in lines
+        let maxl = len(l)>maxl? len(l):maxl
+    endfor
+    let h = repeat(g:wrap_char, maxl+4)
+    for i in range(len(lines))
+        let ll = len(lines[i])
+        let lines[i] = g:wrap_char . ' ' . lines[i] . repeat(' ', maxl-ll) . ' ' . g:wrap_char
+    endfor
+    let result = [h]
+    call extend(result, lines)
+    call add(result,h)
+    execute a:firstline.','.a:lastline . ' d'
+    let s = a:firstline-1<0?0:a:firstline-1
+    call append(s, result)
+endfunction
+
+
