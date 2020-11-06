@@ -9,9 +9,6 @@ targets=(
 'boredpanda.com'
 'reddit.com'
 'facebook.com'
-'amazon.de'
-'ebay.de'
-'dampfdorado.de'
 'news.ycombinator.com'
 'twitter.com'
 )
